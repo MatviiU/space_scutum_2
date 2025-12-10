@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:space_scutum_2/features/characters/data/data_source/models/location.dart';
+import 'package:space_scutum_2/features/characters/data/data_source/models/characters_location.dart';
 
-part 'result.g.dart';
+part 'characters_result.g.dart';
 
 enum Gender {
   @JsonValue('Female')
@@ -22,8 +22,8 @@ enum Status {
 }
 
 @JsonSerializable()
-class Result {
-  Result({
+class CharactersResult {
+  CharactersResult({
     this.id,
     this.name,
     this.status,
@@ -38,7 +38,8 @@ class Result {
     this.created,
   });
 
-  factory Result.fromJson(Map<String, dynamic> json) => _$ResultFromJson(json);
+  factory CharactersResult.fromJson(Map<String, dynamic> json) =>
+      _$CharactersResultFromJson(json);
 
   final int? id;
   final String? name;
@@ -46,12 +47,12 @@ class Result {
   final String? species;
   final String? type;
   final Gender? gender;
-  final Location? origin;
-  final Location? location;
+  final CharactersLocation? origin;
+  final CharactersLocation? location;
   final String? image;
   final List<String>? episode;
   final String? url;
   final DateTime? created;
 
-  Map<String, dynamic> toJson() => _$ResultToJson(this);
+  Map<String, dynamic> toJson() => _$CharactersResultToJson(this);
 }
