@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:space_scutum_2/features/characters/presentation/cubit/characters_cubit.dart';
 import 'package:space_scutum_2/features/characters/presentation/cubit/characters_state.dart';
+import 'package:space_scutum_2/features/episodes/presentation/cubit/episodes_cubit.dart';
+import 'package:space_scutum_2/router/route_names.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -48,7 +51,7 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       appBar: AppBar(title: const Text('Characters')),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const .symmetric(horizontal: 16, vertical: 8),
         child: Column(
           children: [
             TextFormField(
@@ -56,9 +59,7 @@ class _MainPageState extends State<MainPage> {
               decoration: InputDecoration(
                 hintText: 'Search',
                 prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
+                border: OutlineInputBorder(borderRadius: .circular(10)),
               ),
               onChanged: (query) {},
             ),
@@ -88,31 +89,50 @@ class _MainPageState extends State<MainPage> {
                             : const SizedBox.shrink();
                       }
                       final character = state.characters[index];
-                      return Card(
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: 100,
-                              height: 100,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(8),
-                                child: Image.network(
-                                  character.image,
-                                  fit: BoxFit.cover,
+                      return InkWell(
+                        onTap: () {
+                          context.goNamed(
+                            RouteNames.characterDetails,
+                            extra: character,
+                          );
+                          context.read<EpisodesCubit>().getEpisodesByIds(
+                            character.episodes,
+                          );
+                        },
+                        child: Card(
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 100,
+                                height: 100,
+                                child: ClipRRect(
+                                  borderRadius: .circular(8),
+                                  child: Image.network(
+                                    character.image,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Expanded(
-                              child: ListTile(
-                                title: Text(character.name),
-                                subtitle: Text(character.status),
-                                trailing: IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.arrow_forward_ios),
+                              Expanded(
+                                child: ListTile(
+                                  title: Text(character.name),
+                                  subtitle: Text(character.status),
+                                  trailing: IconButton(
+                                    onPressed: () {
+                                      context.goNamed(
+                                        RouteNames.characterDetails,
+                                        extra: character,
+                                      );
+                                      context
+                                          .read<EpisodesCubit>()
+                                          .getEpisodesByIds(character.episodes);
+                                    },
+                                    icon: const Icon(Icons.arrow_forward_ios),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       );
                     },
