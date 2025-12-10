@@ -3,10 +3,11 @@ import 'package:get_it/get_it.dart';
 import 'package:space_scutum_2/core/network/test_api.dart';
 import 'package:space_scutum_2/features/characters/data/data_source/characters_data_source.dart';
 import 'package:space_scutum_2/features/characters/data/repositories/character_repository.dart';
-import 'package:space_scutum_2/features/characters/presentation/cubit/characters_cubit.dart';
+import 'package:space_scutum_2/features/characters/presentation/cubits/character_details_cubit.dart';
+import 'package:space_scutum_2/features/characters/presentation/cubits/characters_cubit.dart';
 import 'package:space_scutum_2/features/episodes/data/data_source/episodes_data_source.dart';
 import 'package:space_scutum_2/features/episodes/data/repositories/episodes_repository.dart';
-import 'package:space_scutum_2/features/episodes/presentation/cubit/episodes_cubit.dart';
+import 'package:space_scutum_2/features/episodes/presentation/cubit/episode_details_cubit.dart';
 
 final getIt = GetIt.instance;
 
@@ -31,6 +32,9 @@ void _registerCharactersFeature() {
     )
     ..registerFactory<CharactersCubit>(
       () => CharactersCubit(getIt<CharacterRepository>()),
+    )
+    ..registerFactory<CharacterDetailsCubit>(
+      () => CharacterDetailsCubit(getIt<EpisodesRepository>()),
     );
 }
 
@@ -42,7 +46,7 @@ void _registerEpisodesFeature() {
     ..registerLazySingleton<EpisodesRepository>(
       () => EpisodesRepositoryImpl(getIt<EpisodesDataSource>()),
     )
-    ..registerFactory<EpisodesCubit>(
-      () => EpisodesCubit(getIt<EpisodesRepository>()),
+    ..registerFactory<EpisodeDetailsCubit>(
+      () => EpisodeDetailsCubit(getIt<CharacterRepository>()),
     );
 }

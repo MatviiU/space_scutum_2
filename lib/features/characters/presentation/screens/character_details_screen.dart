@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:space_scutum_2/features/characters/data/repositories/models/character.dart';
-import 'package:space_scutum_2/features/episodes/presentation/cubit/episodes_cubit.dart';
-import 'package:space_scutum_2/features/episodes/presentation/cubit/episodes_state.dart';
+import 'package:space_scutum_2/features/characters/presentation/cubits/character_details_cubit.dart';
+import 'package:space_scutum_2/features/characters/presentation/cubits/character_details_state.dart';
+import 'package:space_scutum_2/router/route_names.dart';
 
 class CharacterDetailsScreen extends StatelessWidget {
   const CharacterDetailsScreen({required this.character, super.key});
@@ -30,7 +32,7 @@ class CharacterDetailsScreen extends StatelessWidget {
                 ],
               ),
               const Text('Episodes:'),
-              BlocBuilder<EpisodesCubit, EpisodesState>(
+              BlocBuilder<CharacterDetailsCubit, CharacterDetailsState>(
                 builder: (context, state) {
                   return ListView.separated(
                     physics: const NeverScrollableScrollPhysics(),
@@ -48,7 +50,19 @@ class CharacterDetailsScreen extends StatelessWidget {
                         return const Text('Error');
                       }
 
-                      return Text(state.episodes[index].name);
+                      return TextButton(
+                        style: TextButton.styleFrom(alignment: .centerLeft),
+                        onPressed: () {
+                          context.pushNamed(
+                            RouteNames.episodesPage,
+                            extra: state.episodes[index],
+                          );
+                        },
+                        child: Text(
+                          state.episodes[index].name,
+                          textAlign: .start,
+                        ),
+                      );
                     },
                     separatorBuilder: (context, index) {
                       return const SizedBox(height: 8);
