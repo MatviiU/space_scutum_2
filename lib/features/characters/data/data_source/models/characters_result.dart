@@ -41,6 +41,17 @@ class CharactersResult {
   factory CharactersResult.fromJson(Map<String, dynamic> json) =>
       _$CharactersResultFromJson(json);
 
+  static List<CharactersResult> listFromJson(dynamic data) {
+    if (data is List) {
+      return data
+          .map((e) => CharactersResult.fromJson(e as Map<String, dynamic>))
+          .toList();
+    } else if (data is Map<String, dynamic>) {
+      return [CharactersResult.fromJson(data)];
+    }
+    return [];
+  }
+
   final int? id;
   final String? name;
   final Status? status;

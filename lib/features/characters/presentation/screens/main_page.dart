@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:space_scutum_2/features/characters/presentation/cubit/characters_cubit.dart';
-import 'package:space_scutum_2/features/characters/presentation/cubit/characters_state.dart';
-import 'package:space_scutum_2/features/episodes/presentation/cubit/episodes_cubit.dart';
+import 'package:space_scutum_2/features/characters/presentation/cubits/character_details_cubit.dart';
+import 'package:space_scutum_2/features/characters/presentation/cubits/characters_cubit.dart';
+import 'package:space_scutum_2/features/characters/presentation/cubits/characters_state.dart';
 import 'package:space_scutum_2/router/route_names.dart';
 
 class MainPage extends StatefulWidget {
@@ -95,9 +95,9 @@ class _MainPageState extends State<MainPage> {
                             RouteNames.characterDetails,
                             extra: character,
                           );
-                          context.read<EpisodesCubit>().getEpisodesByIds(
-                            character.episodes,
-                          );
+                          context
+                              .read<CharacterDetailsCubit>()
+                              .getEpisodesByIds(character.episodes);
                         },
                         child: Card(
                           child: Row(
@@ -124,7 +124,7 @@ class _MainPageState extends State<MainPage> {
                                         extra: character,
                                       );
                                       context
-                                          .read<EpisodesCubit>()
+                                          .read<CharacterDetailsCubit>()
                                           .getEpisodesByIds(character.episodes);
                                     },
                                     icon: const Icon(Icons.arrow_forward_ios),

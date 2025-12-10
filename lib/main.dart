@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:space_scutum_2/di/get_it.dart';
-import 'package:space_scutum_2/features/characters/presentation/cubit/characters_cubit.dart';
-import 'package:space_scutum_2/features/episodes/presentation/cubit/episodes_cubit.dart';
+import 'package:space_scutum_2/features/characters/presentation/cubits/character_details_cubit.dart';
+import 'package:space_scutum_2/features/characters/presentation/cubits/characters_cubit.dart';
 import 'package:space_scutum_2/router/app_router.dart';
 
 void main() async {
@@ -21,9 +21,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => getIt<CharactersCubit>()..getCharacters(),
         ),
-        BlocProvider(
-          create: (context) => getIt<EpisodesCubit>()..getEpisodes(),
-        ),
+        BlocProvider(create: (context) => getIt<CharacterDetailsCubit>()),
       ],
       child: MaterialApp.router(title: 'Flutter Demo', routerConfig: router),
     );

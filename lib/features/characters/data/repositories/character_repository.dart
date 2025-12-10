@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:space_scutum_2/features/characters/data/data_source/characters_data_source.dart';
 import 'package:space_scutum_2/features/characters/data/repositories/models/character.dart';
 
@@ -5,6 +6,8 @@ import 'package:space_scutum_2/features/characters/data/repositories/models/char
 
 abstract interface class CharacterRepository {
   Future<List<Character>> getCharacters(int page);
+
+  Future<List<Character>> getCharactersByIds(List<String> urls);
 }
 
 class CharacterRepositoryImpl implements CharacterRepository {
@@ -15,10 +18,34 @@ class CharacterRepositoryImpl implements CharacterRepository {
 
   @override
   Future<List<Character>> getCharacters(int page) async {
-    final data = await _dataSource.getCharacters(page);
-    if (data.results == null) {
-      return [];
+    try {
+      final data = await _dataSource.getCharacters(page);
+      if (data.results == null) {
+        return [];
+      }
+      return data.results!.map(Character.fromResponse).toList();
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 404) {
+        return [];
+      }
+      throw Exception(e.message);
+    } catch (e) {
+      throw Exception(e.toString());
     }
-    return data.results!.map(Character.fromResponse).toList();
+  }
+
+  @override
+  Future<List<Character>> getCharactersByIds(List<String> urls) async {
+    try {
+      final data = await _dataSource.getCharactersByIds(urls);
+      return data.map(Character.fromResponse).toList();
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 404) {
+        return [];
+      }
+      throw Exception(e.message);
+    } catch (e) {
+      throw Exception(e.toString());
+    }
   }
 }

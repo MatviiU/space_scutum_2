@@ -1,42 +1,42 @@
 import 'package:equatable/equatable.dart';
 import 'package:space_scutum_2/features/episodes/data/repositories/models/episode.dart';
 
-class EpisodesState extends Equatable {
-  const EpisodesState({
+class CharacterDetailsState extends Equatable {
+  const CharacterDetailsState({
     required this.episodes,
     required this.isLoading,
-    required this.currentPage,
     required this.hasError,
+    required this.errorMessage,
   });
 
-  factory EpisodesState.initial() {
-    return const EpisodesState(
+  factory CharacterDetailsState.initial() {
+    return const CharacterDetailsState(
       episodes: [],
       isLoading: true,
-      currentPage: 1,
       hasError: false,
+      errorMessage: '',
     );
   }
 
   final List<Episode> episodes;
   final bool isLoading;
-  final int currentPage;
   final bool hasError;
+  final String errorMessage;
 
-  EpisodesState copyWith({
+  CharacterDetailsState copyWith({
     List<Episode>? episodes,
     bool? isLoading,
-    int? currentPage,
     bool? hasError,
+    String? errorMessage,
   }) {
-    return EpisodesState(
+    return CharacterDetailsState(
       episodes: episodes ?? this.episodes,
       isLoading: isLoading ?? this.isLoading,
-      currentPage: currentPage ?? this.currentPage,
       hasError: hasError ?? this.hasError,
+      errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 
   @override
-  List<Object?> get props => [episodes, isLoading, currentPage, hasError];
+  List<Object?> get props => [episodes, isLoading, hasError, errorMessage];
 }
